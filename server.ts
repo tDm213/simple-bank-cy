@@ -7,7 +7,7 @@ import authRoutes from './routes/auth';
 import userRoutes from './routes/user';
 import { authMiddleware } from './middleware/auth';
 import transactionRoutes from './routes/transaction';
-
+import path from 'path';
 
 dotenv.config(); // Load .env
 
@@ -16,9 +16,6 @@ const prisma = new PrismaClient();
 
 app.use(cors());
 app.use(express.json());
-
-// 🔹 Test route
-app.get('/', (req, res) => res.send('Banking App API is running!'));
 
 // 🔹 Optional: Test DB connection
 app.get('/test-db', async (req, res) => {
@@ -29,6 +26,7 @@ app.get('/test-db', async (req, res) => {
 app.use('/auth', authRoutes);
 app.use('/user', authMiddleware, userRoutes);
 app.use('/transaction', authMiddleware, transactionRoutes);
+app.use(express.static(path.join(__dirname, 'public')));
 
 // 🔹 Start the server
 app.listen(3000, () => {

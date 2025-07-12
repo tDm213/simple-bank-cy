@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Banking Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <section>
+    <h1>🏦 Dashboard</h1>
+    <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+    <div id="userInfo"></div>
+
+    <div class="main-grid">
+      <!-- LEFT: Send/Request Tabs + Pending Requests -->
+      <div class="left-column">
+        <!-- Send/Request Tabs -->
+        <div class="tab-container">
+          <div class="tab-buttons">
+            <button type="button" id="tabSend" class="active">💸 Send</button>
+            <button type="button" id="tabRequest">📥 Request</button>
+          </div>
+
+          <div id="sendTab" class="tab-content">
+            <form id="sendForm">
+              To: <input type="text" id="sendTo" required />
+              Amount: <input type="number" id="sendAmount" required />
+              <button type="submit">Send</button>
+            </form>
+          </div>
+
+          <div id="requestTab" class="tab-content hidden">
+            <form id="requestForm">
+              From: <input type="text" id="requestFrom" required />
+              Amount: <input type="number" id="requestAmount" required />
+              <button type="submit">Request</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Pending Requests directly below -->
+        <div class="pending-box">
+          <h3>⏳ Pending Requests</h3>
+          <ul id="pendingRequests"></ul>
+        </div>
+      </div>
+
+      <!-- RIGHT: Transaction History -->
+      <div class="right">
+        <h3>📜 Transaction History</h3>
+        <ul id="history"></ul>
+      </div>
+    </div>
+  </section>
+
+  <script src="app.js"></script>
+</body>
+</html>
