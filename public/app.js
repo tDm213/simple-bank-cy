@@ -43,10 +43,20 @@ async function getRequests() {
   const res = await fetch('/transaction/requests', { headers });
   const data = await res.json();
   const list = document.getElementById('pendingRequests');
+  const emptyMsg = document.getElementById('noPending');
   list.innerHTML = '';
+
+  if (data.length === 0) {
+    emptyMsg.classList.remove('hidden');
+    return;
+  } else {
+    emptyMsg.classList.add('hidden');
+  }
+
   data.forEach(req => {
     const li = document.createElement('li');
     li.textContent = `${req.fromUser.username} requests $${req.amount}`;
+
     const approveBtn = document.createElement('button');
     approveBtn.textContent = 'Approve';
     approveBtn.onclick = async () => {
@@ -57,6 +67,7 @@ async function getRequests() {
       });
       loadEverything();
     };
+
     const rejectBtn = document.createElement('button');
     rejectBtn.textContent = 'Reject';
     rejectBtn.onclick = async () => {
@@ -67,6 +78,7 @@ async function getRequests() {
       });
       loadEverything();
     };
+
     li.appendChild(approveBtn);
     li.appendChild(rejectBtn);
     list.appendChild(li);

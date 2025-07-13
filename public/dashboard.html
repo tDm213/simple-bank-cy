@@ -6,10 +6,16 @@
 </head>
 <body>
   <section>
-    <h1>🏦 Dashboard</h1>
-    <button class="logout-btn" onclick="logout()">🚪 Logout</button>
-    <div id="userInfo"></div>
+    <!-- Header: Dashboard left, User info + Logout right -->
+    <div class="dashboard-header">
+      <h1>🏦 Dashboard</h1>
+      <div class="user-header">
+        <div id="userInfo"></div>
+        <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+      </div>
+    </div>
 
+    <!-- Main Grid: Tabs + History -->
     <div class="main-grid">
       <!-- LEFT: Send/Request Tabs + Pending Requests -->
       <div class="left-column">
@@ -37,10 +43,11 @@
           </div>
         </div>
 
-        <!-- Pending Requests directly below -->
+        <!-- Pending Requests -->
         <div class="pending-box">
           <h3>⏳ Pending Requests</h3>
           <ul id="pendingRequests"></ul>
+        <p id="noPending" class="empty-message hidden">No pending requests 👍</p>
         </div>
       </div>
 
