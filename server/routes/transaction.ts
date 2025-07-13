@@ -1,4 +1,3 @@
-// routes/transaction.ts
 import express from 'express';
 import {
   sendMoney,

@@ -14,10 +14,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Serve frontend
 app.use(express.static(path.join(__dirname, '../public')));
 
-// API routes
 app.use('/auth', authRoutes);
 app.use('/transaction', authMiddleware, transactionRoutes);
 app.use('/user', authMiddleware, userRoutes);

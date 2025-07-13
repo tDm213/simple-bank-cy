@@ -25,7 +25,6 @@ export const sendMoney = async (req: AuthRequest, res: Response) => {
       return res.status(400).json({ error: 'Insufficient balance' });
     }
 
-    // Perform balance updates in a transaction
     await prisma.$transaction([
       prisma.user.update({
         where: { id: sender.id },
@@ -164,7 +163,7 @@ export const getTransactionHistory = async (req: AuthRequest, res: Response) => 
     },
   });
 
-  const history = transactions.map(tx => ({
+  const history = transactions.map((tx : any) => ({
     id: tx.id,
     type: tx.type,
     status: tx.status,

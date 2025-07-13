@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Banking Dashboard</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
+
 <body>
   <section>
-    <!-- Header: Dashboard left, User info + Logout right -->
     <div class="dashboard-header">
       <h1>🏦 Dashboard</h1>
       <div class="user-header">
@@ -15,11 +16,8 @@
       </div>
     </div>
 
-    <!-- Main Grid: Tabs + History -->
     <div class="main-grid">
-      <!-- LEFT: Send/Request Tabs + Pending Requests -->
       <div class="left-column">
-        <!-- Send/Request Tabs -->
         <div class="tab-container">
           <div class="tab-buttons">
             <button type="button" id="tabSend" class="active">💸 Send</button>
@@ -43,15 +41,13 @@
           </div>
         </div>
 
-        <!-- Pending Requests -->
         <div class="pending-box">
           <h3>⏳ Pending Requests</h3>
           <ul id="pendingRequests"></ul>
-        <p id="noPending" class="empty-message hidden">No pending requests 👍</p>
+          <p id="noPending" class="empty-message hidden">No pending requests 👍</p>
         </div>
       </div>
 
-      <!-- RIGHT: Transaction History -->
       <div class="right">
         <h3>📜 Transaction History</h3>
         <ul id="history"></ul>
@@ -61,4 +57,5 @@
 
   <script src="app.js"></script>
 </body>
+
 </html>

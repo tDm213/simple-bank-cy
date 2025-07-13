@@ -1,4 +1,3 @@
-// controllers/authController.ts
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
@@ -39,13 +38,11 @@ export const signup = async (req: Request, res: Response) => {
 export const login = async (req: Request, res: Response) => {
   const { username, password } = req.body;
 
-  // Check if input is present
   if (!username || !password) {
     return res.status(400).json({ error: 'Username and password required' });
   }
 
   try {
-    // Find user by username
     const user = await prisma.user.findUnique({
       where: { username }
     });
@@ -54,13 +51,11 @@ export const login = async (req: Request, res: Response) => {
       return res.status(400).json({ error: 'Invalid credentials' });
     }
 
-    // Compare password with hash
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ error: 'Invalid credentials' });
     }
 
-    // Create JWT token
     const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '1h' });
 
     res.json({ token });
