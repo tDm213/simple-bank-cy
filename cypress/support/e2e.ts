@@ -15,3 +15,11 @@
 
 // Import commands.js using ES2015 syntax:
 import './commands'
+import '@shelex/cypress-allure-plugin'
+
+afterEach(function () {
+if (this.currentTest?.state === 'failed') {
+    const screenshotFileName = `${this.currentTest.title} (failed).png`
+    cy.allure().attachment('Screenshot', `screenshots/${Cypress.spec.name}/${screenshotFileName}`, 'image/png')
+}
+})

@@ -1,15 +1,6 @@
 import { users } from "../fixtures/users"
 
-describe("User Sign-up and Login", () => {
-
-
-
-    enum tabRequest {
-        Tab = '[id="tabRequest"]',
-        InputFrom = '[id="requestFrom"]',
-        InputAmountFrom = '[id="requestAmount"]',
-        Button = '[id="RequestAmountButton"]'
-    }
+describe("User Making Transactions", () => {
 
     const sendAmount = '5'
     const requestAmount = '1'
@@ -18,8 +9,6 @@ describe("User Sign-up and Login", () => {
     const approveButton = '[id="approveBtn"]'
     const rejectButton = '[id="rejectBtn"]'
     const userValid = users.userValid.username
-
-
 
     function loginAndGotoDashboard(user: any) {
         cy.visit('/')
