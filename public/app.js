@@ -58,6 +58,7 @@ async function getRequests() {
     li.textContent = `${req.fromUser.username} requests $${req.amount}`;
 
     const approveBtn = document.createElement('button');
+    approveBtn.id = 'approveBtn'
     approveBtn.textContent = 'Approve';
     approveBtn.onclick = async () => {
       await fetch('/transaction/request/approve', {
@@ -69,6 +70,7 @@ async function getRequests() {
     };
 
     const rejectBtn = document.createElement('button');
+    rejectBtn.id = 'rejectBtn'
     rejectBtn.textContent = 'Reject';
     rejectBtn.onclick = async () => {
       await fetch('/transaction/request/reject', {

@@ -2,87 +2,78 @@ import { users } from "../fixtures/users"
 
 describe("User Sign-up and Login", () => {
 
-const loginUsername = '[id="loginUsername"]'
-const loginPassword = '[id="loginPassword"]'
-const loginButton = '[id="loginButton"]'
-const logoutBtn = '[id="logout-btn"]'
-const loginPassError = '[id="loginPassError"]'
+enum signup {
+  Tab = '[id="tabSignup"]',
+  Username = '[id="signupUsername"]',
+  Password = '[id="signupPassword"]',
+  Button = '[id="signupButton"]',
+  PassError = '[id="signupPassError"]'
+}
 
-const tabSignup = '[id="tabSignup"]'
-const signupUsername = '[id="signupUsername"]'
-const signupPassword = '[id="signupPassword"]'
-const signupButton = '[id="signupButton"]'
-const signupPassError = '[id="signupPassError"]'
+const logoutBtn = '[id="logout-btn"]'
+const loginBtn = '[id="loginButton"]'
+const PassError = '[id="loginPassError"]'
+const uniqueUsername = `user_${Date.now()}`
+
+  beforeEach(() => {
+    cy.visit('/')
+  })
 
   context("Login-Logout", () => {
     it('Login with correct credentials', () => {
-      cy.visit('/')
-      cy.get(loginUsername).type(users.userValid.username)
-      cy.get(loginPassword).type(Cypress.env('password'))
-      cy.get(loginButton).click()
+      cy.login(users.userValid, Cypress.env('password'))
       cy.url().should('include', '/dashboard')
       cy.get(logoutBtn).should('be.visible')
     })
 
     it('Login with wrong credentials', () => {
-      cy.visit('/')
-      cy.get(loginUsername).type(users.userValid.username)
-      cy.get(loginPassword).type('wrong-password')
-      cy.get(loginButton).click()
-      cy.get(loginPassError).should('have.text', 'Invalid credentials')
+      cy.login(users.userValid, 'wrong-password')
+      cy.get(PassError).should('have.text', 'Invalid credentials')
     })
 
     it('Login with empty fields', () => {
-      cy.visit('/')
-      cy.get(loginButton).click()
+      cy.get(loginBtn).click()
       cy.get(logoutBtn).should('not.exist')
     })
 
     it('Logout from dashboard', () => {
-      cy.visit('/')
-      cy.get(loginUsername).type(users.userValid.username)
-      cy.get(loginPassword).type(Cypress.env('password'))
-      cy.get(loginButton).click()
+      cy.login(users.userValid, Cypress.env('password'))
       cy.url().should('include', '/dashboard')
       cy.get(logoutBtn).click()
-      cy.get(loginButton).should('be.visible')
+      cy.get(loginBtn).should('be.visible')
     })
   })
 
   context("Sign-up", () => {
-    it('Signup with new username/password', () => {
-      cy.visit('/')
-      cy.get(tabSignup).click()
-      cy.get(signupUsername).type(Math.random().toString(36).substring(2, 10))
-      cy.get(signupPassword).type(Cypress.env('password'))
-      cy.get(signupButton).click()
+    it('Should successfully sign up with a unique username and valid password', () => {
+      cy.get(signup.Tab).click()
+      cy.get(signup.Username).type(uniqueUsername)
+      cy.get(signup.Password).type(Cypress.env('password'))
+      cy.get(signup.Button).click()
       cy.url().should('include', '/dashboard')
       cy.get(logoutBtn).should('be.visible')
     })
 
     it('Signup with missing username/password', () => {
-      cy.visit('/')
-      cy.get(tabSignup).click()
-      cy.get(signupButton).click()
+      cy.get(signup.Tab).click()
+      cy.get(signup.Button).click()
       cy.get(logoutBtn).should('not.exist')
     })
 
     it('Signup with short password', () => {
-      cy.visit('/')
-      cy.get(tabSignup).click()
-      cy.get(signupUsername).type(Math.random().toString(36).substring(2, 10))
-      cy.get(signupPassword).type('a')
-      cy.get(signupButton).click()
-      cy.get(signupPassError).should('have.text', 'Password must be at least 4 characters.')
+      cy.get(signup.Tab).click()
+      cy.get(signup.Username).type(uniqueUsername)
+      cy.get(signup.Password).type('a')
+      cy.get(signup.Button).click()
+      cy.get(signup.PassError).should('have.text', 'Password must be at least 4 characters.')
     })
 
     it('Signup with existing username', () => {
-      cy.visit('/')
-      cy.get(loginUsername).type(users.userValid.username)
-      cy.get(loginPassword).type(Cypress.env('password'))
-      cy.get(loginButton).click()
-      cy.url().should('include', '/dashboard')
-      cy.get(logoutBtn).should('be.visible')
+      cy.get(signup.Tab).click()
+      cy.get(signup.Username).type(users.userValid.username)
+      cy.get(signup.Password).type(Cypress.env('password'))
+      cy.get(signup.Button).click()
+      cy.get(signup.PassError).should('have.text', 'Username taken')
     })
   })
 })

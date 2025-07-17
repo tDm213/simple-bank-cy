@@ -8,30 +8,56 @@
 // commands please read more here:
 // https://on.cypress.io/custom-commands
 // ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-//
-// declare global {
-//   namespace Cypress {
-//     interface Chainable {
-//       login(email: string, password: string): Chainable<void>
-//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
-//     }
-//   }
-// }
+
+
+enum login {
+  Username = '[id="loginUsername"]',
+  Password = '[id="loginPassword"]',
+  Button = '[id="loginButton"]'
+}
+
+enum tabSend {
+    Tab = '[id="tabSend"]',
+    InputSendTo = '[id="sendTo"]',
+    InputSendAmount = '[id="sendAmount"]',
+    Button = '[id="SendAmountButton"]'
+}
+
+enum tabRequest {
+    Tab = '[id="tabRequest"]',
+    InputFrom = '[id="requestFrom"]',
+    InputAmountFrom = '[id="requestAmount"]',
+    Button = '[id="RequestAmountButton"]'
+}
+
+
+Cypress.Commands.add("login", (user : any, password : any) => {
+  cy.get(login.Username).type(user.username)
+  cy.get(login.Password).type(password)
+  cy.get(login.Button).click()
+})
+
+Cypress.Commands.add('sendAmount', (to, amount) => {
+  cy.get(tabSend.Tab).click()
+  cy.get(tabSend.InputSendTo).type(to)
+  cy.get(tabSend.InputSendAmount).type(amount)
+  cy.intercept('POST', '/transaction/send').as('transactionSend')
+  cy.get(tabSend.Button).click()
+})
+
+Cypress.Commands.add('requestAmount', (from, amount) => {
+  cy.get(tabRequest.Tab).click()
+  cy.get(tabRequest.InputFrom).type(from)
+  cy.get(tabRequest.InputAmountFrom).type(amount)
+  cy.intercept('POST', '/transaction/request').as('transactionRequest')
+  cy.get(tabRequest.Button).click()
+})
+
+declare namespace Cypress {
+  interface Chainable {
+    login(username: any, password: any): Chainable<void>
+    sendAmount(to: any, amount: any): Chainable<void>
+    requestAmount(from: any, amount: any): Chainable<void>
+  }
+}
+
