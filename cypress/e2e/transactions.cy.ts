@@ -1,20 +1,19 @@
 import { users } from "../fixtures/users"
+import { auth } from "../support/POM/auth"
+import { dashboard } from "../support/POM/dashboard"
+
+const sendAmount = '5'
+const requestAmount = '1'
+const userValid = users.userValid.username
 
 describe("User Making Transactions", () => {
 
-    const sendAmount = '5'
-    const requestAmount = '1'
-    const logoutBtn = '[id="logout-btn"]'
-    const history = '[id="history"]'
-    const approveButton = '[id="approveBtn"]'
-    const rejectButton = '[id="rejectBtn"]'
-    const userValid = users.userValid.username
 
     function loginAndGotoDashboard(user: any) {
         cy.visit('/')
         cy.login(user, Cypress.env('password'))
         cy.url().should('include', '/dashboard')
-        cy.get(logoutBtn).should('be.visible')
+        dashboard.LogoutBtn().should('be.visible')
     }
 
     context('Functional tests', () => {
@@ -22,27 +21,27 @@ describe("User Making Transactions", () => {
             loginAndGotoDashboard(users.JohnDoe)
             cy.sendAmount(userValid, requestAmount)
             cy.log('**>View transaction history<**')
-            cy.get(history).children().should('contain.text', `✔ Sent $${sendAmount} to ${userValid}`)
+            dashboard.History().children().should('contain.text', `✔ Sent $${sendAmount} to ${userValid}`)
         })
 
         it('Request money from existing user', () => {
             loginAndGotoDashboard(users.JohnDoe)
             cy.requestAmount(userValid, requestAmount)
             cy.log('**>View transaction history<**')
-            cy.get(history).children().should('contain.text', `⏳ Requested $${requestAmount} from ${userValid}`)
+            dashboard.History().children().should('contain.text', `⏳ Requested $${requestAmount} from ${userValid}`)
         })
 
         context('Approve money request', () => {
             beforeEach(() => {
                 loginAndGotoDashboard(users.JohnDoe)
                 cy.requestAmount(userValid, requestAmount)
-                cy.get(history).children().should('contain.text', `⏳ Requested $${requestAmount} from ${userValid}`)
+                dashboard.History().children().should('contain.text', `⏳ Requested $${requestAmount} from ${userValid}`)
             })
 
             it('Approve money request', () => {
                 loginAndGotoDashboard(users.userValid)
                 cy.intercept('POST', '/transaction/request/approve').as('approveRequest')
-                cy.get(approveButton).first().click()
+                dashboard.ApproveButton().first().click()
                 cy.log('**>Verify API Approved request<**')
                 cy.wait('@approveRequest').then((req: any) => {
                     const state = req.state
@@ -53,7 +52,7 @@ describe("User Making Transactions", () => {
                 })
 
                 cy.log('**>View transaction history<**')
-                cy.get(history).children().should('contain.text', `✔ Requested $${requestAmount} from ${userValid}`)
+                dashboard.History().children().should('contain.text', `✔ Requested $${requestAmount} from ${userValid}`)
             })
         })
 
@@ -61,13 +60,13 @@ describe("User Making Transactions", () => {
             beforeEach(() => {
                 loginAndGotoDashboard(users.JohnDoe)
                 cy.requestAmount(userValid, requestAmount)
-                cy.get(history).children().should('contain.text', `⏳ Requested $${requestAmount} from ${userValid}`)
+                dashboard.History().children().should('contain.text', `⏳ Requested $${requestAmount} from ${userValid}`)
             })
 
             it('Reject money request', () => {
                 loginAndGotoDashboard(users.userValid)
                 cy.intercept('POST', '/transaction/request/reject').as('rejectRequest')
-                cy.get(rejectButton).first().click()
+                dashboard.RejectButton().first().click()
                 cy.log('**>Verify API Rejected request<**')
                 cy.wait('@rejectRequest').then((req: any) => {
                     const state = req.state
@@ -78,7 +77,7 @@ describe("User Making Transactions", () => {
                 })
 
                 cy.log('**>View transaction history<**')
-                cy.get(history).children().should('contain.text', `✘ Requested $${requestAmount} from ${userValid}`)
+                dashboard.History().children().should('contain.text', `✘ Requested $${requestAmount} from ${userValid}`)
             })
         })
     })

@@ -39,6 +39,9 @@ npm run allure:open   # Open Allure test report
 ✅ Cypress – E2E testing
 📊 Allure Reports – Pretty test reporting
 
+### 🧪 Design Patterns
+📃 POM (Page Object Model)
+
 ### 🛠️ Tech Stack
 Backend: Node.js, Express, Prisma, SQLite, JWT
 
