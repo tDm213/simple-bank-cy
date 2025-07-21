@@ -35,12 +35,15 @@ npm run test          # Run Cypress tests
 npm run test:allure   # Run tests with Allure reports
 npm run allure:open   # Open Allure test report
 ```
-### 🧪 Testing Tools
-✅ Cypress – E2E testing
-📊 Allure Reports – Pretty test reporting
 
-### 🧪 Design Patterns
-📃 POM (Page Object Model)
+### 🧪 Testing Tools
+
+✅ **Cypress** – E2E testing  
+📊 **Allure Reports** – Pretty test reporting
+
+#### 📐 Design Patterns
+
+📃 **POM (Page Object Model)** – Separates test logic from UI selectors for maintainability 
 
 ### 🛠️ Tech Stack
 Backend: Node.js, Express, Prisma, SQLite, JWT
