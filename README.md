@@ -5,33 +5,6 @@ A full-stack TypeScript-based banking application with user authentication, data
 
 ---
 
-## 📁 Project Structure
-
-simple-bank-cy/
-│
-├── cypress/ # Cypress E2E tests
-│ ├── e2e/ # tests for the login/signup/transactions
-│
-├── public/ # Static HTML & Frontend logic
-│ └── app.js # Transactions logic
-│ └── dashboard.html # UI for the dashboard
-│ └── index.html # Handles form submission logic
- └── support/ # common functions
-│
-├── server/ # Backend application
-│ ├── controllers/ # Express route handlers
-│ ├── middleware/ # Auth middleware
-│ ├── prisma/ # Prisma schema and SQLite DB
-│ ├── routes/ # API route definitions
-│ └── server.ts # Main Express server
-│
-├── .env # Environment config
-├── tsconfig.json # TypeScript config
-├── package.json # NPM scripts and dependencies
-└── README.md # This file
-
----
-
 ## 🚀 Getting Started
 
 ### 1. 📦 Install dependencies
